@@ -7,8 +7,4 @@
     <UserSecretsId>d0f532bc-d55d-43f9-80f1-823638d3d0bc</UserSecretsId>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Core\" />
-  </ItemGroup>
-
 </Project>

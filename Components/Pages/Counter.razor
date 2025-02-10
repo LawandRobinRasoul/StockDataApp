@@ -1,7 +1,8 @@
 ﻿@page "/counter"
+@using StockDataApp.Core
 @using StockDataApp.Infra.Clients
 @rendermode InteractiveServer
-@inject FinnhubClient FinnhubClient
+@inject IFinnhubService FinnhubClient
 
 <PageTitle>Counter</PageTitle>
 
@@ -16,7 +17,7 @@
     
     private async void IncrementCount()
     {
-        var response = await FinnhubClient.GetStockSymbolByQueryAsync("APPL");
+        var response = await FinnhubClient.GetStockSymbolByQueryAsync("pexip");
         currentCount++;
     }
 }

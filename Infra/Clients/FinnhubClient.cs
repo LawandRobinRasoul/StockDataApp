@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using StockDataApp.Core;
 
 namespace StockDataApp.Infra.Clients
 {
-    public class FinnhubClient
+    public class FinnhubClient : IFinnhubService
     {
         private readonly HttpClient httpClient;
 
@@ -16,5 +17,7 @@ namespace StockDataApp.Infra.Clients
             var response = await httpClient.GetAsync($"api/v1/search?q={query}");
             return await response.Content.ReadAsStringAsync();
         }
+
+
     }
 }
