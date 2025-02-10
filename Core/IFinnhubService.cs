@@ -1,12 +1,14 @@
-﻿namespace StockDataApp.Core
+﻿using StockDataApp.Core.FinnhubModels;
+
+namespace StockDataApp.Core
 {
     public interface IFinnhubService
     {
-        Task<string> GetStockSymbolByQueryAsync(string query);
+        Task<StockSymbolResult> GetStockSymbolByQueryAsync(string query);
 
         Task<string> GetStockPriceToday(string symbol);
 
-        Task<string> GetBasicFinancialsAsync(string symbol);
+        Task<BasicFinancialsResult> GetBasicFinancialsAsync(string symbol);
 
         Task<string> GetPeersAsync(string symbol);
 
@@ -14,6 +16,6 @@
 
         Task<string> GetRecommendationsAsync(string symbol);
 
-        Task<string> GetFinancialsAsync(string symbol, string frequency, FromKeyedServicesAttribute, DateTimeOffset from, DateTimeOffset to);
+        Task<string> GetFinancialsAsync(string symbol, string frequency, DateTimeOffset from, DateTimeOffset to);
     }
 }

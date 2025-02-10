@@ -17,7 +17,9 @@
     
     private async void IncrementCount()
     {
-        var response = await FinnhubClient.GetStockSymbolByQueryAsync("pexip");
+        var response = await FinnhubClient.GetStockSymbolByQueryAsync("AAPL");
+        var response1 = await FinnhubClient.GetBasicFinancialsAsync("AAPL");
+
         currentCount++;
     }
 }
