@@ -1,7 +1,84 @@
 ﻿@page "/"
+@using StockDataApp.Core
+@using StockDataApp.Core.FinnhubModels
+@rendermode InteractiveServer
+@inject IFinnhubService FinnhubClient
+
 
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
+<h1>Lando!</h1>
 
-Welcome to your new app.
+<div class="container">
+    <div class="row align-items-center mb-4">
+        <!-- Input Group (takes full width on small screens, half on larger ones) -->
+        <div class="col-12 col-md-8">
+            <div class="input-group input-group-sm mb-3">
+                <span class="input-group-text" id="inputGroup-sizing-sm">Search</span>
+                <input type="text"
+                       class="form-control"
+                       aria-label="Sizing example input"
+                       aria-describedby="inputGroup-sizing-sm"
+                       @bind-value="searchSymbol"
+                       @oninput="@(e => searchSymbol = e.Value.ToString())"
+                       @onkeydown="HandleKeyDown">
+            </div>
+        </div>
+
+        <!-- Image (shown on the right side on medium and larger screens, full width on small) -->
+        @if (companyProfile != null)
+        {
+            <div class="col-12 col-md-4 d-flex justify-content-center justify-content-md-end">
+                <img class="search-img"
+                     src="@companyProfile.Logo"
+                     alt="Company Logo"
+                     style="border-radius: 50%; width: 70px; height: 70px; object-fit: cover; cursor: pointer;"/>
+            </div>
+        }
+    </div>
+
+    <!-- Company Profile Section (show when a company profile is available) -->
+    @if (companyProfile != null)
+    {
+        <div class="row p-3 bg-light rounded shadow-sm">
+           <div class="col">
+            <h3>@companyProfile.Name (@companyProfile.Ticker)</h3>
+            <p><strong>Name:</strong> @companyProfile.Name</p>
+            <p><strong>Exchange:</strong> @companyProfile.Exchange</p>
+            <p><strong>Currency:</strong> @companyProfile.Currency</p>
+            <p><strong>WebUrl:</strong> @companyProfile.WebUrl</p>
+            </div>
+            <div class="col">
+            <p>test</p>
+            </div>
+
+        </div>
+    }
+</div>
+
+@code {
+
+    private string searchSymbol = string.Empty;
+
+    private string stockImageLink = string.Empty;
+
+    CompanyProfileResult companyProfile = null;
+
+    private async Task HandleKeyDown(KeyboardEventArgs e)
+    {
+        StateHasChanged();
+
+        // Check if the key pressed is "Enter"
+        if (e.Key == "Enter")
+        {
+           await Search(searchSymbol);
+        }
+    }
+
+    private async Task Search(string symbol)
+    {
+        companyProfile = await FinnhubClient.GetCompanyProfileAsync(symbol);
+        StateHasChanged();
+    }
+
+}

@@ -26,7 +26,9 @@ namespace StockDataApp.Infra.Clients
         {
             var response = await httpClient.GetAsync($"api/v1/stock/profile2?symbol={symbol}");
             response.EnsureSuccessStatusCode();
-            return await response.Content.ReadFromJsonAsync<CompanyProfileResult>();
+            var model = await response.Content.ReadFromJsonAsync<CompanyProfileResult>();
+
+            return model;
         }
         public async Task<StockQuoteResult> GetStockPriceToday(string symbol)
         {
